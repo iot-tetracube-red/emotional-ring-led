@@ -11,11 +11,11 @@ class DeviceActions
 {
 public:
     DeviceActions();
-    void doHotEmotional(int wait);
-    void doColdEmotional(int wait);
-    void doDawn();
-    void doScanEffect();
-    void doShutDown();
+    void doHotEmotional(int *currentEffect, int wait);
+    void doColdEmotional(int *currentEffect, int wait);
+    void doDawn(int *currentEffect);
+    void doScanEffect(int *currentEffect);
+    void doShutDown(int *currentEffect);
     // void turnOnRelay(bool *isRunning, int *currentSwitchValue, IoTClient *iotClient);
     // void turnOffRelay(bool *isRunning, int *currentSwitchValue, IoTClient *iotClient);
 

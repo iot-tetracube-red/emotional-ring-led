@@ -13,8 +13,8 @@ WiFiManager *wifiManager;
 DeviceActions *deviceActions;
 IoTClient *iotClient;
 
-int nextSwitchValue = 0;
-int currentValueSwitch = 0;
+int nextEffect = 0;
+int currentEffect = 0;
 int previousSwitchStatus = 0;
 bool actionIsRunning = false;
 
@@ -40,7 +40,7 @@ void setup()
   //Serial.printf("Initialize Application server\n");
   //applicationServer = new ApplicationServer(deviceActions);
 
-  iotClient = new IoTClient(&nextSwitchValue);
+  iotClient = new IoTClient(&nextEffect);
 }
 
 void loop()
@@ -48,16 +48,36 @@ void loop()
   //applicationServer->handleClient();
   iotClient->keepConnection();
 
-  if (nextSwitchValue != currentValueSwitch && !actionIsRunning)
+  if (nextEffect != currentEffect)
   {
-    Serial.printf("Current value %d and next value %d\n", currentValueSwitch, nextSwitchValue);
-    if (nextSwitchValue == 0)
+    Serial.printf("Current value %d and next value %d\n", currentEffect, nextEffect);
+    if (nextEffect == 1)
     {
-      //deviceActions->turnOffRelay(&actionIsRunning, &currentValueSwitch, iotClient);
+      actionIsRunning = true;
+      deviceActions->doHotEmotional(&currentEffect, 10);
     }
-    else if (nextSwitchValue == 1)
+    else if (nextEffect == 2)
     {
-      //deviceActions->turnOnRelay(&actionIsRunning, &currentValueSwitch, iotClient);
+      actionIsRunning = true;
+      deviceActions->doColdEmotional(&currentEffect, 10);
+      //deviceActions->turnOnRelay(&actionIsRunning, &currentEffect, iotClient);
+    }
+    else if (nextEffect == 3)
+    {
+      actionIsRunning = true;
+      deviceActions->doDawn(&currentEffect);
+      //deviceActions->turnOnRelay(&actionIsRunning, &currentEffect, iotClient);
+    }
+    else if (nextEffect == 4)
+    {
+      actionIsRunning = true;
+      deviceActions->doScanEffect(&currentEffect);
+      //deviceActions->turnOnRelay(&actionIsRunning, &currentEffect, iotClient);
+    }
+    else if (nextEffect == 0)
+    {
+      actionIsRunning = false;
+      deviceActions->doShutDown(&currentEffect);
     }
 
     Serial.println("Finished to run");

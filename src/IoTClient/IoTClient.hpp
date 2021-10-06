@@ -12,12 +12,12 @@ class IoTClient
 {
 
 public:
-    IoTClient(int *nextSwitchValue);
+    IoTClient(int *nextEffect);
     void keepConnection();
     void publishTelemetry(const char *featureId, int *valueToPublish);
 
 private:
-    int *nextSwitchValue;
+    int *nextEffect;
     WiFiClient *client;
     Adafruit_MQTT_Client *mqtt;
     Adafruit_MQTT_Subscribe *switchSubscription;

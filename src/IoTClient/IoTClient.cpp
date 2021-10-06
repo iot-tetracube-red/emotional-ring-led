@@ -1,11 +1,11 @@
 #include "IoTClient.hpp"
 
-IoTClient::IoTClient(int *nextSwitchValue)
+IoTClient::IoTClient(int *nextEffect)
 {
-    this->nextSwitchValue = nextSwitchValue;
+    this->nextEffect = nextEffect;
     this->client = new WiFiClient();
     this->mqtt = new Adafruit_MQTT_Client(this->client, BROKER_IP, BROKER_PORT, "", "");
-    this->switchSubscription = new Adafruit_MQTT_Subscribe(this->mqtt, SWITCH_ACTION_TOPIC, MQTT_QOS_1);
+    this->switchSubscription = new Adafruit_MQTT_Subscribe(this->mqtt, EFFECTS_ACTION_TOPIC, MQTT_QOS_1);
 
     this->mqtt->subscribe(this->switchSubscription);
 }
@@ -20,13 +20,25 @@ void IoTClient::keepConnection()
         {
             if (subscription == this->switchSubscription)
             {
+                if (strcmp((char *)this->switchSubscription->lastread, "HOT_EMOTIONAL") == 0)
+                {
+                    *this->nextEffect = 1;
+                }
+                if (strcmp((char *)this->switchSubscription->lastread, "COLD_EMOTIONAL") == 0)
+                {
+                    *this->nextEffect = 2;
+                }
+                if (strcmp((char *)this->switchSubscription->lastread, "DAWN") == 0)
+                {
+                    *this->nextEffect = 3;
+                }
+                if (strcmp((char *)this->switchSubscription->lastread, "SCAN") == 0)
+                {
+                    *this->nextEffect = 4;
+                }
                 if (strcmp((char *)this->switchSubscription->lastread, "TURN_OFF") == 0)
                 {
-                    *this->nextSwitchValue = 0;
-                }
-                if (strcmp((char *)this->switchSubscription->lastread, "TURN_ON") == 0)
-                {
-                    *this->nextSwitchValue = 1;
+                    *this->nextEffect = 0;
                 }
             }
         }

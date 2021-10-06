@@ -6,8 +6,9 @@ DeviceActions::DeviceActions()
     this->ledCount = LED_COUNT;
 }
 
-void DeviceActions::doHotEmotional(int wait)
+void DeviceActions::doHotEmotional(int *currentEffect, int wait)
 {
+    *currentEffect = 1;
     if (pixelHueHot >= maxHueHot)
     {
         signHot = -1;
@@ -20,8 +21,9 @@ void DeviceActions::doHotEmotional(int wait)
     pixelHueHot = pixelHueHot + signHot * (maxHueHot - startHueHot) / 32;
 }
 
-void DeviceActions::doColdEmotional(int wait)
+void DeviceActions::doColdEmotional(int *currentEffect, int wait)
 {
+    *currentEffect = 2;
     if (pixelHueCold >= maxHueCold)
     {
         signCold = -1;
@@ -34,8 +36,9 @@ void DeviceActions::doColdEmotional(int wait)
     pixelHueCold = pixelHueCold + signCold * (maxHueCold - startHueCold) / 32;
 }
 
-void DeviceActions::doDawn()
+void DeviceActions::doDawn(int *currentEffect)
 {
+    *currentEffect = 3;
     if (!isDelaySpent(delayTimeDawn) || stopDawn)
     {
         return;
@@ -54,8 +57,9 @@ void DeviceActions::doDawn()
     }
 }
 
-void DeviceActions::doScanEffect()
+void DeviceActions::doScanEffect(int *currentEffect)
 {
+    *currentEffect = 4;
     this->totalSteps = (this->ledCount - 1) * 2;
 
     if (!isDelaySpent(delayTimeScanner))
@@ -92,8 +96,9 @@ void DeviceActions::scanner(uint32_t color)
     }
 }
 
-void DeviceActions::doShutDown()
+void DeviceActions::doShutDown(int *currentEffect)
 {
+    *currentEffect = 0;
     colorWipe(this->strip->Color(0, 0, 0), 50);
 }
 
