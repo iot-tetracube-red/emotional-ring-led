@@ -51,37 +51,33 @@ void loop()
   if (nextEffect != currentEffect)
   {
     Serial.printf("Current value %d and next value %d\n", currentEffect, nextEffect);
-    if (nextEffect == 1)
-    {
-      actionIsRunning = true;
-      deviceActions->doHotEmotional(&currentEffect, 10);
-    }
-    else if (nextEffect == 2)
-    {
-      actionIsRunning = true;
-      deviceActions->doColdEmotional(&currentEffect, 10);
-      //deviceActions->turnOnRelay(&actionIsRunning, &currentEffect, iotClient);
-    }
-    else if (nextEffect == 3)
-    {
-      actionIsRunning = true;
-      deviceActions->doDawn(&currentEffect);
-      //deviceActions->turnOnRelay(&actionIsRunning, &currentEffect, iotClient);
-    }
-    else if (nextEffect == 4)
-    {
-      actionIsRunning = true;
-      deviceActions->doScanEffect(&currentEffect);
-      //deviceActions->turnOnRelay(&actionIsRunning, &currentEffect, iotClient);
-    }
-    else if (nextEffect == 0)
-    {
-      actionIsRunning = false;
-      deviceActions->doShutDown(&currentEffect);
-    }
+    // send telemetry via mqtt
+  }
 
-    Serial.println("Finished to run");
+  if (nextEffect == 1)
+  {
+    actionIsRunning = true;
+    deviceActions->doHotEmotional(&currentEffect, 60);
+  }
+  else if (nextEffect == 2)
+  {
+    actionIsRunning = true;
+    deviceActions->doColdEmotional(&currentEffect, 60);
+  }
+  else if (nextEffect == 3)
+  {
+    actionIsRunning = true;
+    deviceActions->doDawn(&currentEffect);
+  }
+  else if (nextEffect == 4)
+  {
+    actionIsRunning = true;
+    deviceActions->doScanEffect(&currentEffect);
+  }
+  else if (nextEffect == 0)
+  {
     actionIsRunning = false;
+    deviceActions->doShutDown(&currentEffect);
   }
 }
 

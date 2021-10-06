@@ -2,8 +2,12 @@
 
 DeviceActions::DeviceActions()
 {
+    int brightness = 50;
     this->strip = new Adafruit_NeoPixel(LED_COUNT, GPIO_LED, NEO_GRB + NEO_KHZ800);
     this->ledCount = LED_COUNT;
+    this->strip->begin();                   // INITIALIZE NeoPixel strip object (REQUIRED)
+    this->strip->show();                    // Turn OFF all pixels ASAP
+    this->strip->setBrightness(brightness); // Set BRIGHTNESS to about 1/5 (max = 255)
 }
 
 void DeviceActions::doHotEmotional(int *currentEffect, int wait)
