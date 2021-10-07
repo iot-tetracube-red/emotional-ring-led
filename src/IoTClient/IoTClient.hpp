@@ -20,7 +20,11 @@ private:
     int *nextEffect;
     WiFiClient *client;
     Adafruit_MQTT_Client *mqtt;
-    Adafruit_MQTT_Subscribe *switchSubscription;
+    Adafruit_MQTT_Subscribe *hotGlowEffectSubscription;
+    Adafruit_MQTT_Subscribe *coldGlowEffectSubscription;
+    Adafruit_MQTT_Subscribe *dawnEffectSubscription;
+    Adafruit_MQTT_Subscribe *scanEffectSubscription;
+    Adafruit_MQTT_Subscribe *shutDownSubscription;
 };
 
 #endif

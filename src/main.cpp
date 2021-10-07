@@ -51,7 +51,9 @@ void loop()
   if (nextEffect != currentEffect)
   {
     Serial.printf("Current value %d and next value %d\n", currentEffect, nextEffect);
-    // send telemetry via mqtt
+    
+    // should publish status of all effect one by one 
+   // iotClient->publishTelemetry(EFFECTS_FEATURE_ID, &currentEffect);
   }
 
   if (nextEffect == 1)

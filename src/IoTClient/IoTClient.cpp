@@ -5,9 +5,17 @@ IoTClient::IoTClient(int *nextEffect)
     this->nextEffect = nextEffect;
     this->client = new WiFiClient();
     this->mqtt = new Adafruit_MQTT_Client(this->client, BROKER_IP, BROKER_PORT, "", "");
-    this->switchSubscription = new Adafruit_MQTT_Subscribe(this->mqtt, EFFECTS_ACTION_TOPIC, MQTT_QOS_1);
+    this->hotGlowEffectSubscription = new Adafruit_MQTT_Subscribe(this->mqtt, HOT_GLOWING_EFFECTS_FEATURE_TOPIC, MQTT_QOS_1);
+    this->coldGlowEffectSubscription = new Adafruit_MQTT_Subscribe(this->mqtt, COLD_GLOWING_EFFECTS_FEATURE_TOPIC, MQTT_QOS_1);
+    this->dawnEffectSubscription = new Adafruit_MQTT_Subscribe(this->mqtt, DAWN_EFFECTS_FEATURE_TOPIC, MQTT_QOS_1);
+    this->scanEffectSubscription = new Adafruit_MQTT_Subscribe(this->mqtt, SCAN_EFFECTS_FEATURE_TOPIC, MQTT_QOS_1);
+    this->shutDownSubscription = new Adafruit_MQTT_Subscribe(this->mqtt, SHUT_DOWN_EFFECTS_FEATURE_TOPIC, MQTT_QOS_1);
 
-    this->mqtt->subscribe(this->switchSubscription);
+    this->mqtt->subscribe(this->hotGlowEffectSubscription);
+    this->mqtt->subscribe(this->coldGlowEffectSubscription);
+    this->mqtt->subscribe(this->dawnEffectSubscription);
+    this->mqtt->subscribe(this->scanEffectSubscription);
+    this->mqtt->subscribe(this->shutDownSubscription);
 }
 
 void IoTClient::keepConnection()
@@ -18,28 +26,25 @@ void IoTClient::keepConnection()
         Adafruit_MQTT_Subscribe *subscription;
         while ((subscription = this->mqtt->readSubscription(100)))
         {
-            if (subscription == this->switchSubscription)
+            if (subscription == this->hotGlowEffectSubscription && strcmp((char *)this->hotGlowEffectSubscription->lastread, "1") == 0)
             {
-                if (strcmp((char *)this->switchSubscription->lastread, "HOT_EMOTIONAL") == 0)
-                {
-                    *this->nextEffect = 1;
-                }
-                if (strcmp((char *)this->switchSubscription->lastread, "COLD_EMOTIONAL") == 0)
-                {
-                    *this->nextEffect = 2;
-                }
-                if (strcmp((char *)this->switchSubscription->lastread, "DAWN") == 0)
-                {
-                    *this->nextEffect = 3;
-                }
-                if (strcmp((char *)this->switchSubscription->lastread, "SCAN") == 0)
-                {
-                    *this->nextEffect = 4;
-                }
-                if (strcmp((char *)this->switchSubscription->lastread, "TURN_OFF") == 0)
-                {
-                    *this->nextEffect = 0;
-                }
+                *this->nextEffect = 1;
+            }
+            if (subscription == this->coldGlowEffectSubscription && strcmp((char *)this->coldGlowEffectSubscription->lastread, "1") == 0)
+            {
+                *this->nextEffect = 2;
+            }
+            if (subscription == this->dawnEffectSubscription && strcmp((char *)this->dawnEffectSubscription->lastread, "1") == 0)
+            {
+                *this->nextEffect = 3;
+            }
+            if (subscription == this->scanEffectSubscription && strcmp((char *)this->scanEffectSubscription->lastread, "1") == 0)
+            {
+                *this->nextEffect = 4;
+            }
+            if (subscription == this->shutDownSubscription && strcmp((char *)this->shutDownSubscription->lastread, "1") == 0)
+            {
+                *this->nextEffect = 0;
             }
         }
 
