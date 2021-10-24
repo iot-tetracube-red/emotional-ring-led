@@ -17,6 +17,12 @@ int nextEffect = 0;
 int currentEffect = 0;
 int previousSwitchStatus = 0;
 bool actionIsRunning = false;
+char *effects[] = {
+    SHUT_DOWN_EFFECTS_FEATURE_ID,
+    HOT_GLOWING_EFFECTS_FEATURE_ID,
+    COLD_GLOWING_EFFECTS_FEATURE_ID,
+    DAWN_EFFECTS_FEATURE_ID,
+    SCAN_EFFECTS_FEATURE_ID};
 
 void setup()
 {
@@ -51,9 +57,12 @@ void loop()
   if (nextEffect != currentEffect)
   {
     Serial.printf("Current value %d and next value %d\n", currentEffect, nextEffect);
-    
-    // should publish status of all effect one by one 
-   // iotClient->publishTelemetry(EFFECTS_FEATURE_ID, &currentEffect);
+
+    for (int effectIdx = 0; effectIdx < 5; effectIdx++)
+    {
+      int value = effectIdx == nextEffect ? 1 : 0;
+      iotClient->publishTelemetry(effects[effectIdx], &value);
+    }
   }
 
   if (nextEffect == 1)

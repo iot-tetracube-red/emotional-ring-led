@@ -2,7 +2,7 @@
 
 DeviceActions::DeviceActions()
 {
-    int brightness = 50;
+    int brightness = 100;
     this->strip = new Adafruit_NeoPixel(LED_COUNT, GPIO_LED, NEO_GRB + NEO_KHZ800);
     this->ledCount = LED_COUNT;
     this->strip->begin();                   // INITIALIZE NeoPixel strip object (REQUIRED)
