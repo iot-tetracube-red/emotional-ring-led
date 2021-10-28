@@ -25,6 +25,7 @@ private:
     Adafruit_MQTT_Subscribe *dawnEffectSubscription;
     Adafruit_MQTT_Subscribe *scanEffectSubscription;
     Adafruit_MQTT_Subscribe *shutDownSubscription;
+    Adafruit_MQTT_Subscribe *settingsSubscription;
 };
 
 #endif

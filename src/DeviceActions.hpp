@@ -16,10 +16,10 @@ public:
     void doDawn(int *currentEffect);
     void doScanEffect(int *currentEffect);
     void doShutDown(int *currentEffect);
-    // void turnOnRelay(bool *isRunning, int *currentSwitchValue, IoTClient *iotClient);
-    // void turnOffRelay(bool *isRunning, int *currentSwitchValue, IoTClient *iotClient);
+    void setBrightness(int value);
 
 private:
+    int brightness = 100;
     /*** HOT EFFECT ***/
     long startHueHot = -8000;
     long pixelHueHot = startHueHot;

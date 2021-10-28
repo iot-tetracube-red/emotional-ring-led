@@ -10,12 +10,14 @@ IoTClient::IoTClient(int *nextEffect)
     this->dawnEffectSubscription = new Adafruit_MQTT_Subscribe(this->mqtt, DAWN_EFFECTS_FEATURE_TOPIC, MQTT_QOS_1);
     this->scanEffectSubscription = new Adafruit_MQTT_Subscribe(this->mqtt, SCAN_EFFECTS_FEATURE_TOPIC, MQTT_QOS_1);
     this->shutDownSubscription = new Adafruit_MQTT_Subscribe(this->mqtt, SHUT_DOWN_EFFECTS_FEATURE_TOPIC, MQTT_QOS_1);
+    this->settingsSubscription = new Adafruit_MQTT_Subscribe(this->mqtt, PREFERENCES_TOPIC, MQTT_QOS_1);
 
     this->mqtt->subscribe(this->hotGlowEffectSubscription);
     this->mqtt->subscribe(this->coldGlowEffectSubscription);
     this->mqtt->subscribe(this->dawnEffectSubscription);
     this->mqtt->subscribe(this->scanEffectSubscription);
     this->mqtt->subscribe(this->shutDownSubscription);
+    this->mqtt->subscribe(this->settingsSubscription);
 }
 
 void IoTClient::keepConnection()
